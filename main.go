@@ -8,8 +8,8 @@ import (
 
 func run() {
 	cfg := pixelgl.WindowConfig{
-		Title:  "Pixel Rocks!",
-		Bounds: pixel.R(0, 0, 1024, 768),
+		Title:  "Man-Pac The Game!",
+		Bounds: pixel.R(0, 0, 640, 480),
 		VSync:  true,
 	}
 	win, err := pixelgl.NewWindow(cfg)
@@ -17,7 +17,7 @@ func run() {
 		panic(err)
 	}
 
-	win.Clear(colornames.Skyblue)
+	win.Clear(colornames.Black)
 
 	for !win.Closed() {
 		win.Update()
