@@ -7,5 +7,8 @@ import (
 
 //Sprite implements pixel's image as a part of game
 type Sprite struct {
-	picture pixel.Picture
+	picture     pixel.Picture
+	sprite      *pixel.Sprite
+	spriteError error
+	id          int
 }
