@@ -8,17 +8,16 @@ import (
 
 //Loader for level interface
 type Loader interface {
-	Parse(data Data)
 	Load(path string)
 }
 
-func (level Level) parse(data Data) {
+func (level *Level) parse(data Data) {
 	for element := range data.lines {
 		level.parseLine(data.lines[element])
 	}
 }
 
-func (level Level) parseLine(line string) {
+func (level *Level) parseLine(line string) {
 	data := strings.Map(func(element rune) rune {
 		if unicode.IsNumber(element) || element == ',' {
 			return element
@@ -33,4 +32,10 @@ func (level Level) parseLine(line string) {
 	}
 
 	level.layout = append(level.layout, levelData)
+}
+
+func (level Level) Load(path string) {
+	var data Data
+	data.Load(path)
+	level.parse(data)
 }

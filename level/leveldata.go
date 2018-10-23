@@ -11,7 +11,7 @@ type Data struct {
 }
 
 //Load function for level
-func (data Data) Load(path string) {
+func (data *Data) Load(path string) {
 	var lines []string
 	file, err := os.Open(path)
 	if err != nil {
@@ -26,7 +26,10 @@ func (data Data) Load(path string) {
 		if err == nil {
 			lines = append(lines, line)
 			continue
-		} else if nil == io.EOF {
+		} else if err == io.EOF {
+			lines = append(lines, line)
+			break
+		} else {
 			break
 		}
 	}

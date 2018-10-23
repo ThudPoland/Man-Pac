@@ -1,12 +1,17 @@
 package main
 
 import (
+	"github.com/ThudPoland/Man-Pac/level"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 )
 
 func run() {
+
+	var level level.Level
+
+	level.Load("data/levels/level1.txt")
 
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",
