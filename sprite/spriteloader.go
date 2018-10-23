@@ -1,7 +1,7 @@
 package sprite
 
 import (
-	"image"
+	"image/png"
 	"os"
 
 	"github.com/faiface/pixel"
@@ -13,9 +13,10 @@ type Loader interface {
 }
 
 //Load loads image to sprite
-func (sprite Sprite) Load(path string, id int) {
+func (sprite *Sprite) Load(path string, id int) {
 	sprite.picture = nil
 	sprite.id = id
+	sprite.spriteError = nil
 	file, err := os.Open(path)
 
 	if err != nil {
@@ -25,7 +26,7 @@ func (sprite Sprite) Load(path string, id int) {
 	}
 	defer file.Close()
 
-	image, _, err := image.Decode(file)
+	image, err := png.Decode(file)
 
 	if err != nil {
 		sprite.picture = nil

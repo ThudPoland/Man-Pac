@@ -35,7 +35,7 @@ func (level *Level) parseLine(line string) {
 }
 
 //Main function for loading level
-func (level Level) Load(path string) {
+func (level *Level) Load(path string) {
 	var data Data
 	data.Load(path)
 	level.parse(data)

@@ -4,6 +4,9 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"strings"
+
+	"github.com/faiface/pixel"
 )
 
 //Manager is manager for sprites in project
@@ -23,7 +26,7 @@ func (manager *Manager) Add(path string) {
 	}
 }
 
-//Add sprites from .txt list
+//LoadFromList function adds sprites from .txt list
 func (manager *Manager) LoadFromList(path string) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -35,13 +38,28 @@ func (manager *Manager) LoadFromList(path string) {
 	for {
 		source, err := reader.ReadString('\n')
 		if err == nil {
-			manager.Add(source)
+			manager.Add(strings.Trim(source, "\n"))
 			continue
 		} else if err == io.EOF {
-			manager.Add(source)
+			manager.Add(strings.Trim(source, "\n"))
 			break
 		} else {
 			break
 		}
+	}
+}
+
+//GetSprite is function for getting sprite for usage
+func (manager Manager) GetSprite(index int) *Sprite {
+	if index < len(manager.sprites) {
+		return &manager.sprites[index]
+	}
+	return nil
+}
+
+//DrawSprite draws sprite in batch
+func (manager Manager) DrawSprite(index int, target pixel.Target, destination pixel.Matrix) {
+	if index < len(manager.sprites) {
+		manager.sprites[index].Draw(target, destination)
 	}
 }

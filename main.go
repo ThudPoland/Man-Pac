@@ -27,6 +27,7 @@ func run() {
 	}
 
 	win.Clear(colornames.Black)
+	level.Draw(win, manager)
 
 	for !win.Closed() {
 		win.Update()
