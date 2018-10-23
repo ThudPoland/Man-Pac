@@ -34,6 +34,7 @@ func (level *Level) parseLine(line string) {
 	level.layout = append(level.layout, levelData)
 }
 
+//Main function for loading level
 func (level Level) Load(path string) {
 	var data Data
 	data.Load(path)

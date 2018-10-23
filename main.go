@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/ThudPoland/Man-Pac/level"
+	"github.com/ThudPoland/Man-Pac/sprite"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
@@ -9,8 +10,10 @@ import (
 
 func run() {
 
+	var manager sprite.Manager
 	var level level.Level
 
+	manager.LoadFromList("data/sprites/list.txt")
 	level.Load("data/levels/level1.txt")
 
 	cfg := pixelgl.WindowConfig{

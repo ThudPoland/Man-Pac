@@ -1,0 +1,4 @@
+data/sprites/empty.png
+data/sprites/wall.png
+data/sprites/pacman.png
+data/sprites/ghost.png
