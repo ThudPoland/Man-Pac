@@ -7,6 +7,7 @@ import (
 )
 
 func run() {
+
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",
 		Bounds: pixel.R(0, 0, 640, 480),
