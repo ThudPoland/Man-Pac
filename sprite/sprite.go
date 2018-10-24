@@ -11,4 +11,5 @@ type Sprite struct {
 	sprite      *pixel.Sprite
 	spriteError error
 	id          int
+	name        string
 }

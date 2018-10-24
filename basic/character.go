@@ -1,8 +1,14 @@
 package basic
 
+import (
+	"github.com/ThudPoland/Man-Pac/sprite"
+	"github.com/faiface/pixel"
+)
+
 //Character is character controlled used in gameplay
 type Character struct {
 	PhysicalObject
+	spriteIndex int
 }
 
 //GetPosition gets position of character
@@ -51,4 +57,8 @@ func (character *Character) SetPosition(x int, y int) {
 func (character *Character) SetSize(w int, h int) {
 	character.W = w
 	character.H = h
+}
+
+func (character *Character) Draw(t pixel.Target, destination pixel.Matrix, manager sprite.Manager) {
+	manager.DrawSprite(character.spriteIndex, t, destination)
 }

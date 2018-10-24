@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/faiface/pixel"
@@ -20,6 +21,7 @@ func (manager *Manager) Add(path string) {
 	var sprite Sprite
 	sprite.Load(path, manager.counter)
 	if sprite.spriteError == nil {
+		sprite.name = strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
 		sprite.id = manager.counter
 		manager.counter++
 		manager.sprites = append(manager.sprites, sprite)
@@ -51,7 +53,7 @@ func (manager *Manager) LoadFromList(path string) {
 
 //GetSprite is function for getting sprite for usage
 func (manager Manager) GetSprite(index int) *Sprite {
-	if index < len(manager.sprites) {
+	if index >= 0 && index < len(manager.sprites) {
 		return &manager.sprites[index]
 	}
 	return nil
@@ -59,7 +61,17 @@ func (manager Manager) GetSprite(index int) *Sprite {
 
 //DrawSprite draws sprite in batch
 func (manager Manager) DrawSprite(index int, target pixel.Target, destination pixel.Matrix) {
-	if index < len(manager.sprites) {
+	if index >= 0 && index < len(manager.sprites) {
 		manager.sprites[index].Draw(target, destination)
 	}
+}
+
+//GetSpriteIndexByName - gets index of sprite by searching by name
+func (manager Manager) GetSpriteIndexByName(name string) int {
+	for element := range manager.sprites {
+		if manager.sprites[element].name == name {
+			return manager.sprites[element].id
+		}
+	}
+	return -1
 }
