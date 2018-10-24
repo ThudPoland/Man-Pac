@@ -59,6 +59,7 @@ func (character *Character) SetSize(w int, h int) {
 	character.H = h
 }
 
+//Draw draws character
 func (character *Character) Draw(t pixel.Target, destination pixel.Matrix, manager sprite.Manager) {
 	manager.DrawSprite(character.spriteIndex, t, destination)
 }
