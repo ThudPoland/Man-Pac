@@ -13,7 +13,7 @@ func run() {
 	var manager sprite.Manager
 	var level level.Level
 
-	manager.LoadFromList("data/sprites/list.txt")
+	manager.LoadFromList("data/sprites/level/list.txt")
 	level.Load("data/levels/level1.txt")
 
 	cfg := pixelgl.WindowConfig{

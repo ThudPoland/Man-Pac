@@ -1,0 +1,2 @@
+data/sprites/level/empty.png
+data/sprites/level/wall.png
