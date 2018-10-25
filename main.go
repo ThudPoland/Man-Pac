@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ThudPoland/Man-Pac/level"
+	"github.com/ThudPoland/Man-Pac/game"
 	"github.com/ThudPoland/Man-Pac/sprite"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
@@ -10,11 +10,14 @@ import (
 
 func run() {
 
-	var manager sprite.Manager
-	var level level.Level
+	var game game.Game
+	game.LoadLevel("data/levels/level1.txt")
+	game.SetActualLevel(1)
 
+	var manager sprite.Manager
 	manager.LoadFromList("data/sprites/level/list.txt")
-	level.Load("data/levels/level1.txt")
+
+	game.SetLevelManager(&manager)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",
@@ -27,7 +30,7 @@ func run() {
 	}
 
 	win.Clear(colornames.Black)
-	level.Draw(win, manager)
+	game.Draw(win)
 
 	for !win.Closed() {
 		win.Update()

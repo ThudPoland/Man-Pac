@@ -32,7 +32,7 @@ func (game Game) Draw(t pixel.Target) {
 
 //SetLevelManager sets level sprites manager
 func (game *Game) SetLevelManager(spriteManager *sprite.Manager) {
-	game.SetLevelManager(spriteManager)
+	game.levelManager = spriteManager
 }
 
 //LoadLevel implements level loading for game
