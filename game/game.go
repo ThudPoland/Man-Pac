@@ -28,6 +28,7 @@ func (game Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
+		game.resources.Draw(t)
 	}
 }
 
@@ -36,10 +37,20 @@ func (game *Game) SetLevelManager(spriteManager *sprite.Manager) {
 	game.levelManager = spriteManager
 }
 
+//SetResourcesManager sets character sprites manager
+func (game *Game) SetResourcesManager(spriteManager *sprite.Manager) {
+	game.resources.LoadSpriteManager(spriteManager)
+}
+
 //LoadLevel implements level loading for game
 func (game *Game) LoadLevel(path string) {
 	var level level.Level
 	level.Load(path)
 	level.SetOffset(pixel.V(0.0, 0.0))
 	game.levels = append(game.levels, level)
+}
+
+//AddGhostToLevel adds ghost to level
+func (game *Game) AddGhostToLevel(x int, y int) {
+	game.resources.CreateCharacter("ghost", x, y)
 }

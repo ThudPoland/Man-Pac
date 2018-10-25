@@ -65,3 +65,19 @@ func (character *Character) Draw(t pixel.Target, offset pixel.Vec, manager *spri
 		float64(character.Y*manager.GetSpriteSize())))
 	manager.DrawSprite(character.spriteIndex, t, destination)
 }
+
+//SetIndexForSprite sets index for sprite from sprites manager
+func (character *Character) SetIndexForSprite(name string, manager *sprite.Manager) {
+	spriteIndex := manager.GetSpriteIndexByName(name)
+	if spriteIndex != -1 {
+		character.spriteIndex = spriteIndex
+	}
+}
+
+//IsValid checks if character is valid for game
+func (character *Character) IsValid() bool {
+	if character.spriteIndex != -1 {
+		return true
+	}
+	return false
+}

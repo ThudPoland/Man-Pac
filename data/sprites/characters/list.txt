@@ -1,2 +1,2 @@
-data/sprites/level/pacman.png
-data/sprites/level/ghost.png
+data/sprites/characters/pacman.png
+data/sprites/characters/ghost.png
