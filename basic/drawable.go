@@ -7,5 +7,5 @@ import (
 
 //Drawable implements method for draw
 type Drawable interface {
-	Draw(t pixel.Target, destination pixel.Matrix, manager sprite.Manager)
+	Draw(t pixel.Target, offset pixel.Vec, manager *sprite.Manager)
 }

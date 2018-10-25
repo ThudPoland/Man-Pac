@@ -60,6 +60,7 @@ func (character *Character) SetSize(w int, h int) {
 }
 
 //Draw draws character
-func (character *Character) Draw(t pixel.Target, destination pixel.Matrix, manager sprite.Manager) {
+func (character *Character) Draw(t pixel.Target, offset pixel.Vec, manager *sprite.Manager) {
+	destination := pixel.IM.Moved(offset).Moved(pixel.V(float64(character.X), float64(character.Y)))
 	manager.DrawSprite(character.spriteIndex, t, destination)
 }

@@ -10,11 +10,12 @@ import (
 
 //Game is structure containing main data about actual game
 type Game struct {
-	levels       []level.Level
-	levelIndex   int
-	resources    PlayerResources
-	enemy        basic.Character
-	levelManager *sprite.Manager
+	levels         []level.Level
+	levelIndex     int
+	resources      PlayerResources
+	enemy          basic.Character
+	levelManager   *sprite.Manager
+	gameSpriteSize int
 }
 
 //SetActualLevel sets index of a level
@@ -27,6 +28,9 @@ func (game Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
+		for element := range game.resources.characters {
+			game.resources.characters[element].Draw(t, pixel.V(0.0, 0.0), nil)
+		}
 	}
 }
 
@@ -39,5 +43,6 @@ func (game *Game) SetLevelManager(spriteManager *sprite.Manager) {
 func (game *Game) LoadLevel(path string) {
 	var level level.Level
 	level.Load(path)
+	level.SetOffset(pixel.V(0.0, 0.0))
 	game.levels = append(game.levels, level)
 }

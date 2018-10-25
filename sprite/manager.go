@@ -12,15 +12,25 @@ import (
 
 //Manager is manager for sprites in project
 type Manager struct {
-	sprites []Sprite
-	counter int
+	sprites    []Sprite
+	counter    int
+	spriteSize int
 }
 
 //Add sprite to manager
 func (manager *Manager) Add(path string) {
 	var sprite Sprite
 	sprite.Load(path, manager.counter)
-	if sprite.spriteError == nil {
+	size := sprite.picture.Bounds().Size()
+	if sprite.spriteError == nil && manager.spriteSize == 0 {
+		//both sprite's edges should be the same size
+		if size.X == size.Y {
+			manager.spriteSize = int(size.X)
+		} else {
+			return
+		}
+	}
+	if sprite.spriteError == nil && int(size.X) == manager.spriteSize {
 		sprite.name = strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
 		sprite.id = manager.counter
 		manager.counter++
@@ -74,4 +84,8 @@ func (manager Manager) GetSpriteIndexByName(name string) int {
 		}
 	}
 	return -1
+}
+
+func (manager Manager) GetSpriteSize() int {
+	return manager.spriteSize
 }

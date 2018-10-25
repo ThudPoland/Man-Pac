@@ -6,6 +6,7 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/ThudPoland/Man-Pac/sprite"
 	"github.com/faiface/pixel"
 )
 
@@ -14,6 +15,7 @@ type Level struct {
 	name   string
 	layout [][]int
 	render pixel.Batch
+	offset pixel.Vec
 }
 
 func (level *Level) parse(data Data) {
@@ -44,4 +46,20 @@ func (level *Level) Load(path string) {
 	var data Data
 	data.Load(path)
 	level.parse(data)
+}
+
+//SetOffset sets offset
+func (level *Level) SetOffset(offset pixel.Vec) {
+	level.offset = offset
+}
+
+//Draw method for level
+func (level Level) Draw(target pixel.Target, manager sprite.Manager) {
+	for element := range level.layout {
+		for nestedElement := range level.layout[element] {
+			destination := pixel.IM.Moved(pixel.V(float64(nestedElement*manager.GetSpriteSize())+16,
+				float64(element*manager.GetSpriteSize())+16)).Moved(level.offset)
+			manager.DrawSprite(level.layout[element][nestedElement], target, destination)
+		}
+	}
 }
