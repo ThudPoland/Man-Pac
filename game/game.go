@@ -28,9 +28,6 @@ func (game Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
-		for element := range game.resources.characters {
-			game.resources.characters[element].Draw(t, pixel.V(0.0, 0.0), nil)
-		}
 	}
 }
 
