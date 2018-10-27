@@ -35,10 +35,9 @@ func run() {
 		panic(err)
 	}
 
-	win.Clear(colornames.Black)
-	game.Draw(win)
-
 	for !win.Closed() {
+		win.Clear(colornames.Black)
+		game.Draw(win)
 		win.Update()
 	}
 }
