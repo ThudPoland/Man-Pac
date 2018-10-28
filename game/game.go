@@ -17,11 +17,13 @@ type Game struct {
 	levelManager     *sprite.Manager
 	interfaceManager *sprite.Manager
 	gameSpriteSize   int
+	foodArray        level.FoodArray
 }
 
 //SetActualLevel sets index of a level
 func (game *Game) SetActualLevel(index int) {
 	game.levelIndex = index
+	game.foodArray.GenerateFoodArray(&game.levels[game.levelIndex-1], nil)
 }
 
 //Draw draws entire actual game
@@ -30,6 +32,7 @@ func (game Game) Draw(t pixel.Target) {
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
 		game.resources.Draw(t)
+		game.foodArray.Draw(t, *game.levelManager)
 		actualCharacter := game.resources.GetActualCharacter()
 		if actualCharacter != nil {
 			spriteSize := game.interfaceManager.GetSpriteSize()

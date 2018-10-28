@@ -24,9 +24,9 @@ func run() {
 	game.SetLevelManager(&levelManager)
 	game.SetResourcesManager(&actorsManager)
 	game.SetInterfaceManager(&interfaceManager)
-	game.AddGhostToLevel(1, 10)
-	game.AddGhostToLevel(2, 10)
-	game.AddGhostToLevel(3, 10)
+	//game.AddGhostToLevel(3, 11)
+	//game.AddGhostToLevel(4, 11)
+	//game.AddGhostToLevel(5, 11)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",
