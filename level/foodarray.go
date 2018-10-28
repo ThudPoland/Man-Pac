@@ -16,10 +16,21 @@ func (array *FoodArray) GenerateFoodArray(level *Level, characters []basic.Chara
 	for element := range level.layout {
 		for nestedElement := range level.layout[element] {
 			if level.layout[element][nestedElement] == 0 {
+				addElement := true
 				var food basic.Food
 				food.X = nestedElement
 				food.Y = element
-				array.array = append(array.array, food)
+				for characterIndex := range characters {
+					characterX := characters[characterIndex].GetX()
+					characterY := characters[characterIndex].GetY()
+					if food.X == characterX && food.Y == characterY {
+						addElement = false
+						break
+					}
+				}
+				if addElement {
+					array.array = append(array.array, food)
+				}
 			}
 		}
 	}

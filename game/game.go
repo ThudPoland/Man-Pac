@@ -23,7 +23,7 @@ type Game struct {
 //SetActualLevel sets index of a level
 func (game *Game) SetActualLevel(index int) {
 	game.levelIndex = index
-	game.foodArray.GenerateFoodArray(&game.levels[game.levelIndex-1], nil)
+	game.foodArray.GenerateFoodArray(&game.levels[game.levelIndex-1], game.resources.characters)
 }
 
 //Draw draws entire actual game
