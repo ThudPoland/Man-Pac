@@ -8,8 +8,9 @@ import (
 
 //PlayerResources has info about all player resources
 type PlayerResources struct {
-	characters []basic.Character
-	manager    *sprite.Manager
+	characters     []basic.Character
+	manager        *sprite.Manager
+	characterIndex int
 }
 
 //Draw draws player resources
@@ -32,6 +33,15 @@ func (resources *PlayerResources) CreateCharacter(name string, x int, y int) {
 		if character.IsValid() {
 			character.SetPosition(x, y)
 			resources.characters = append(resources.characters, character)
+			resources.characterIndex = len(resources.characters) - 1
 		}
 	}
+}
+
+//GetActualCharacter gets actual game character
+func (resources *PlayerResources) GetActualCharacter() *basic.Character {
+	if resources.characterIndex < len(resources.characters) {
+		return &resources.characters[resources.characterIndex]
+	}
+	return nil
 }

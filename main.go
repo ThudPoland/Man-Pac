@@ -18,12 +18,15 @@ func run() {
 	levelManager.LoadFromList("data/sprites/level/list.txt")
 	var actorsManager sprite.Manager
 	actorsManager.LoadFromList("data/sprites/characters/list.txt")
+	var interfaceManager sprite.Manager
+	interfaceManager.LoadFromList("data/sprites/ui/list.txt")
 
 	game.SetLevelManager(&levelManager)
 	game.SetResourcesManager(&actorsManager)
-	game.AddGhostToLevel(1, 1)
-	game.AddGhostToLevel(2, 2)
-	game.AddGhostToLevel(3, 3)
+	game.SetInterfaceManager(&interfaceManager)
+	game.AddGhostToLevel(1, 10)
+	game.AddGhostToLevel(2, 10)
+	game.AddGhostToLevel(3, 10)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",

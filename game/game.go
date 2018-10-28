@@ -10,12 +10,13 @@ import (
 
 //Game is structure containing main data about actual game
 type Game struct {
-	levels         []level.Level
-	levelIndex     int
-	resources      PlayerResources
-	enemy          basic.Character
-	levelManager   *sprite.Manager
-	gameSpriteSize int
+	levels           []level.Level
+	levelIndex       int
+	resources        PlayerResources
+	enemy            basic.Character
+	levelManager     *sprite.Manager
+	interfaceManager *sprite.Manager
+	gameSpriteSize   int
 }
 
 //SetActualLevel sets index of a level
@@ -29,6 +30,15 @@ func (game Game) Draw(t pixel.Target) {
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
 		game.resources.Draw(t)
+		actualCharacter := game.resources.GetActualCharacter()
+		if actualCharacter != nil {
+			spriteSize := game.interfaceManager.GetSpriteSize()
+			selectionPosition := pixel.IM.Moved(pixel.V(16.0, 16.0)).
+				Moved(pixel.V(float64(actualCharacter.GetX()*spriteSize),
+					float64(actualCharacter.GetY()*spriteSize)))
+			game.interfaceManager.DrawSprite(game.interfaceManager.GetSpriteIndexByName("selection"),
+				t, selectionPosition)
+		}
 	}
 }
 
@@ -40,6 +50,10 @@ func (game *Game) SetLevelManager(spriteManager *sprite.Manager) {
 //SetResourcesManager sets character sprites manager
 func (game *Game) SetResourcesManager(spriteManager *sprite.Manager) {
 	game.resources.LoadSpriteManager(spriteManager)
+}
+
+func (game *Game) SetInterfaceManager(spriteManager *sprite.Manager) {
+	game.interfaceManager = spriteManager
 }
 
 //LoadLevel implements level loading for game
