@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/ThudPoland/Man-Pac/event"
 	"github.com/ThudPoland/Man-Pac/game"
 	"github.com/ThudPoland/Man-Pac/sprite"
 	"github.com/faiface/pixel"
@@ -10,8 +11,9 @@ import (
 
 func run() {
 
-	var game game.Game
-	game.LoadLevel("data/levels/level1.txt")
+	var gameProvider game.Game
+	gameProvider.LoadLevel("data/levels/level1.txt")
+	var controller event.Controller
 
 	var levelManager sprite.Manager
 	levelManager.LoadFromList("data/sprites/level/list.txt")
@@ -20,13 +22,13 @@ func run() {
 	var interfaceManager sprite.Manager
 	interfaceManager.LoadFromList("data/sprites/ui/list.txt")
 
-	game.SetLevelManager(&levelManager)
-	game.SetResourcesManager(&actorsManager)
-	game.SetInterfaceManager(&interfaceManager)
-	game.AddGhostToLevel(3, 11)
-	game.AddGhostToLevel(4, 11)
-	game.AddGhostToLevel(5, 11)
-	game.SetActualLevel(1)
+	gameProvider.SetLevelManager(&levelManager)
+	gameProvider.SetResourcesManager(&actorsManager)
+	gameProvider.SetInterfaceManager(&interfaceManager)
+	gameProvider.AddGhostToLevel(3, 11)
+	gameProvider.AddGhostToLevel(4, 11)
+	gameProvider.AddGhostToLevel(5, 11)
+	gameProvider.SetActualLevel(1)
 
 	cfg := pixelgl.WindowConfig{
 		Title:  "Man-Pac The Game!",
@@ -34,13 +36,20 @@ func run() {
 		VSync:  true,
 	}
 	win, err := pixelgl.NewWindow(cfg)
+
+	controller.InitController()
+	controller.SetProcessedWindow(win)
+	controller.RegisterAction(pixelgl.KeyQ, &gameProvider, game.PreviousCharacter)
+	controller.RegisterAction(pixelgl.KeyE, &gameProvider, game.NextCharacter)
+
 	if err != nil {
 		panic(err)
 	}
 
 	for !win.Closed() {
 		win.Clear(colornames.Black)
-		game.Draw(win)
+		controller.ProcessEventLoop()
+		gameProvider.Draw(win)
 		win.Update()
 	}
 }

@@ -45,3 +45,35 @@ func (resources *PlayerResources) GetActualCharacter() *basic.Character {
 	}
 	return nil
 }
+
+//GetActualCharacterIndex gets actual character's index
+func (resources *PlayerResources) GetActualCharacterIndex() int {
+	return resources.characterIndex
+}
+
+//SetActualCharacterIndex sets actual character's index
+func (resources *PlayerResources) SetActualCharacterIndex(index int) {
+	if index > 0 && index < len(resources.characters) {
+		resources.characterIndex = index
+	} else {
+		resources.characterIndex = 0
+	}
+}
+
+//IncrementIndex increments index of actual character
+func (resources *PlayerResources) IncrementIndex() {
+	if resources.characterIndex == len(resources.characters)-1 {
+		resources.characterIndex = 0
+	} else {
+		resources.characterIndex++
+	}
+}
+
+//DecrementIndex decrements index of actual character
+func (resources *PlayerResources) DecrementIndex() {
+	if resources.characterIndex == 0 {
+		resources.characterIndex = len(resources.characters) - 1
+	} else {
+		resources.characterIndex--
+	}
+}

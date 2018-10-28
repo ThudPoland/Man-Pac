@@ -71,3 +71,19 @@ func (game *Game) LoadLevel(path string) {
 func (game *Game) AddGhostToLevel(x int, y int) {
 	game.resources.CreateCharacter("ghost", x, y)
 }
+
+//PreviousCharacter sets previous character
+func PreviousCharacter(receiver interface{}) {
+	gameProvider, ok := receiver.(*Game)
+	if ok == true {
+		gameProvider.resources.DecrementIndex()
+	}
+}
+
+//NextCharacter sets next character
+func NextCharacter(receiver interface{}) {
+	gameProvider, ok := receiver.(*Game)
+	if ok == true {
+		gameProvider.resources.IncrementIndex()
+	}
+}
