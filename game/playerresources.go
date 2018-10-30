@@ -8,9 +8,10 @@ import (
 
 //PlayerResources has info about all player resources
 type PlayerResources struct {
-	characters     []basic.Character
-	manager        *sprite.Manager
-	characterIndex int
+	characters       []basic.DrawableActor
+	manager          *sprite.Manager
+	interfaceManager *sprite.Manager
+	characterIndex   int
 }
 
 //Draw draws player resources
@@ -25,13 +26,20 @@ func (resources *PlayerResources) LoadSpriteManager(manager *sprite.Manager) {
 	resources.manager = manager
 }
 
-//CreateCharacter creates character for game
-func (resources *PlayerResources) CreateCharacter(name string, x int, y int) {
-	if resources.manager != nil {
-		var character basic.Character
+//LoadInterfaceSpriteManager loads manager for interface sprites for resource
+func (resources *PlayerResources) LoadInterfaceSpriteManager(manager *sprite.Manager) {
+	resources.interfaceManager = manager
+}
+
+//CreateGhost creates ghost for game
+func (resources *PlayerResources) CreateGhost(name string, x int, y int) {
+	if resources.manager != nil && resources.interfaceManager != nil {
+		character := new(basic.Ghost)
 		character.SetIndexForSprite(name, resources.manager)
 		if character.IsValid() {
 			character.SetPosition(x, y)
+			character.SetInterfaceManager(resources.interfaceManager)
+			character.SetDirection(basic.Down)
 			resources.characters = append(resources.characters, character)
 			resources.characterIndex = len(resources.characters) - 1
 		}
@@ -39,9 +47,9 @@ func (resources *PlayerResources) CreateCharacter(name string, x int, y int) {
 }
 
 //GetActualCharacter gets actual game character
-func (resources *PlayerResources) GetActualCharacter() *basic.Character {
+func (resources *PlayerResources) GetActualCharacter() basic.DrawableActor {
 	if resources.characterIndex < len(resources.characters) {
-		return &resources.characters[resources.characterIndex]
+		return resources.characters[resources.characterIndex]
 	}
 	return nil
 }

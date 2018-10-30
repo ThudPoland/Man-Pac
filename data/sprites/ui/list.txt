@@ -1,1 +1,5 @@
 data/sprites/ui/selection.png
+data/sprites/ui/up.png
+data/sprites/ui/left.png
+data/sprites/ui/down.png
+data/sprites/ui/right.png

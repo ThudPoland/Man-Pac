@@ -55,8 +55,10 @@ func (game *Game) SetResourcesManager(spriteManager *sprite.Manager) {
 	game.resources.LoadSpriteManager(spriteManager)
 }
 
+//SetInterfaceManager sets interface sprites manager
 func (game *Game) SetInterfaceManager(spriteManager *sprite.Manager) {
 	game.interfaceManager = spriteManager
+	game.resources.LoadInterfaceSpriteManager(spriteManager)
 }
 
 //LoadLevel implements level loading for game
@@ -69,21 +71,13 @@ func (game *Game) LoadLevel(path string) {
 
 //AddGhostToLevel adds ghost to level
 func (game *Game) AddGhostToLevel(x int, y int) {
-	game.resources.CreateCharacter("ghost", x, y)
+	game.resources.CreateGhost("ghost", x, y)
 }
 
-//PreviousCharacter sets previous character
-func PreviousCharacter(receiver interface{}) {
-	gameProvider, ok := receiver.(*Game)
+//SetDirection sets direction for player
+func (game *Game) SetDirection(direction basic.Direction) {
+	character, ok := game.resources.GetActualCharacter().(*basic.Ghost)
 	if ok == true {
-		gameProvider.resources.DecrementIndex()
-	}
-}
-
-//NextCharacter sets next character
-func NextCharacter(receiver interface{}) {
-	gameProvider, ok := receiver.(*Game)
-	if ok == true {
-		gameProvider.resources.IncrementIndex()
+		character.SetDirection(direction)
 	}
 }

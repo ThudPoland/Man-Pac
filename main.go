@@ -41,6 +41,10 @@ func run() {
 	controller.SetProcessedWindow(win)
 	controller.RegisterAction(pixelgl.KeyQ, &gameProvider, game.PreviousCharacter)
 	controller.RegisterAction(pixelgl.KeyE, &gameProvider, game.NextCharacter)
+	controller.RegisterAction(pixelgl.KeyUp, &gameProvider, game.SetUpDirection)
+	controller.RegisterAction(pixelgl.KeyDown, &gameProvider, game.SetDownDirection)
+	controller.RegisterAction(pixelgl.KeyLeft, &gameProvider, game.SetLeftDirection)
+	controller.RegisterAction(pixelgl.KeyRight, &gameProvider, game.SetRightDirection)
 
 	if err != nil {
 		panic(err)

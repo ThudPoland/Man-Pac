@@ -76,6 +76,11 @@ func (manager Manager) DrawSprite(index int, target pixel.Target, destination pi
 	}
 }
 
+func (manager Manager) DrawSpriteByName(name string, target pixel.Target, destination pixel.Matrix) {
+	spriteIndex := manager.GetSpriteIndexByName(name)
+	manager.DrawSprite(spriteIndex, target, destination)
+}
+
 //GetSpriteIndexByName - gets index of sprite by searching by name
 func (manager Manager) GetSpriteIndexByName(name string) int {
 	for element := range manager.sprites {

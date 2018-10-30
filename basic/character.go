@@ -17,12 +17,12 @@ func (character Character) GetPosition() (int, int) {
 }
 
 //GetX gets x position of character
-func (character Character) GetX() int {
+func (character *Character) GetX() int {
 	return character.X
 }
 
 //GetY gets y position of character
-func (character Character) GetY() int {
+func (character *Character) GetY() int {
 	return character.Y
 }
 
