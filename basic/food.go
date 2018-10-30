@@ -27,3 +27,12 @@ func (food *Food) SetFoodType(foodType FoodType) {
 func (food *Food) GetFoodType() FoodType {
 	return food.foodType
 }
+
+//EstimateFoodType estimates type of food
+func (food *Food) EstimateFoodType(points NearPoints) {
+	if points.Sum() == 3 {
+		food.SetFoodType(PowerUp)
+	} else {
+		food.SetFoodType(CommonMeal)
+	}
+}

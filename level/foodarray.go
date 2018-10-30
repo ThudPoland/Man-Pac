@@ -20,6 +20,15 @@ func (array *FoodArray) GenerateFoodArray(level *Level, characters []basic.Drawa
 				var food basic.Food
 				food.X = nestedElement
 				food.Y = element
+
+				nearPoints := basic.NearPoints{Position: pixel.V(float64(nestedElement), float64(element)),
+					Up:    level.layout[element+1][nestedElement],
+					Down:  level.layout[element-1][nestedElement],
+					Left:  level.layout[element][nestedElement-1],
+					Right: level.layout[element][nestedElement+1]}
+
+				food.EstimateFoodType(nearPoints)
+
 				for characterIndex := range characters {
 					characterX := characters[characterIndex].GetX()
 					characterY := characters[characterIndex].GetY()
@@ -39,7 +48,12 @@ func (array *FoodArray) GenerateFoodArray(level *Level, characters []basic.Drawa
 //Draw implements drawing of food
 func (array *FoodArray) Draw(target pixel.Target, manager sprite.Manager) {
 	for element := range array.array {
-		foodIndex := manager.GetSpriteIndexByName("food")
+		var foodIndex int
+		if array.array[element].GetFoodType() == basic.PowerUp {
+			foodIndex = manager.GetSpriteIndexByName("powerup")
+		} else {
+			foodIndex = manager.GetSpriteIndexByName("food")
+		}
 		destination := pixel.IM.Moved(pixel.V(16.0, 16.0)).
 			Moved(pixel.V(float64(array.array[element].X*manager.GetSpriteSize()),
 				float64(array.array[element].Y*manager.GetSpriteSize())))

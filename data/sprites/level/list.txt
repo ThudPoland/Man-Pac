@@ -2,3 +2,4 @@ data/sprites/level/empty.png
 data/sprites/level/wall.png
 data/sprites/level/food.png
 data/sprites/level/gate.png
+data/sprites/level/powerup.png
