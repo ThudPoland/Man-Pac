@@ -6,6 +6,7 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/ThudPoland/Man-Pac/basic"
 	"github.com/ThudPoland/Man-Pac/sprite"
 	"github.com/faiface/pixel"
 )
@@ -62,4 +63,13 @@ func (level Level) Draw(target pixel.Target, manager sprite.Manager) {
 			manager.DrawSprite(level.layout[element][nestedElement], target, destination)
 		}
 	}
+}
+
+//GetNearPoints gets near points
+func (level *Level) GetNearPoints(x, y int) basic.NearPoints {
+	return basic.NearPoints{Position: pixel.V(float64(x), float64(y)),
+		Up:    level.layout[y+1][x],
+		Down:  level.layout[y-1][x],
+		Left:  level.layout[y][x-1],
+		Right: level.layout[y][x+1]}
 }

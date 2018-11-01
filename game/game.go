@@ -78,6 +78,8 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 func (game *Game) SetDirection(direction basic.Direction) {
 	character, ok := game.resources.GetActualCharacter().(*basic.Ghost)
 	if ok == true {
-		character.SetDirection(direction)
+		index := game.levelIndex - 1
+		points := game.levels[index].GetNearPoints(character.GetX(), character.GetY())
+		character.SetDirection(direction, points)
 	}
 }

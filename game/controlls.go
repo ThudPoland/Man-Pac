@@ -51,3 +51,11 @@ func SetRightDirection(receiver interface{}) {
 		gameProvider.SetDirection(basic.Right)
 	}
 }
+
+//SetNoDirection sets right direction for actual ghost
+func SetNoDirection(receiver interface{}) {
+	gameProvider, ok := receiver.(*Game)
+	if ok == true {
+		gameProvider.SetDirection(basic.No)
+	}
+}

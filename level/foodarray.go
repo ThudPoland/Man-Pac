@@ -21,11 +21,7 @@ func (array *FoodArray) GenerateFoodArray(level *Level, characters []basic.Drawa
 				food.X = nestedElement
 				food.Y = element
 
-				nearPoints := basic.NearPoints{Position: pixel.V(float64(nestedElement), float64(element)),
-					Up:    level.layout[element+1][nestedElement],
-					Down:  level.layout[element-1][nestedElement],
-					Left:  level.layout[element][nestedElement-1],
-					Right: level.layout[element][nestedElement+1]}
+				nearPoints := level.GetNearPoints(nestedElement, element)
 
 				food.EstimateFoodType(nearPoints)
 

@@ -45,6 +45,7 @@ func run() {
 	controller.RegisterAction(pixelgl.KeyDown, &gameProvider, game.SetDownDirection)
 	controller.RegisterAction(pixelgl.KeyLeft, &gameProvider, game.SetLeftDirection)
 	controller.RegisterAction(pixelgl.KeyRight, &gameProvider, game.SetRightDirection)
+	controller.RegisterAction(pixelgl.KeyN, &gameProvider, game.SetNoDirection)
 
 	if err != nil {
 		panic(err)

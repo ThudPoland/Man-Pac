@@ -39,7 +39,7 @@ func (resources *PlayerResources) CreateGhost(name string, x int, y int) {
 		if character.IsValid() {
 			character.SetPosition(x, y)
 			character.SetInterfaceManager(resources.interfaceManager)
-			character.SetDirection(basic.Down)
+			character.SetNoDirection()
 			resources.characters = append(resources.characters, character)
 			resources.characterIndex = len(resources.characters) - 1
 		}
