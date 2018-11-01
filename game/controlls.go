@@ -59,3 +59,10 @@ func SetNoDirection(receiver interface{}) {
 		gameProvider.SetDirection(basic.No)
 	}
 }
+
+func ProcessAction(receiver interface{}) {
+	gameProvider, ok := receiver.(*Game)
+	if ok == true {
+		gameProvider.ProcessTurn()
+	}
+}

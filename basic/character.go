@@ -8,6 +8,7 @@ import (
 //Character is character controlled used in gameplay
 type Character struct {
 	PhysicalObject
+	direction   Direction
 	spriteIndex int
 }
 
@@ -80,4 +81,46 @@ func (character *Character) IsValid() bool {
 		return true
 	}
 	return false
+}
+
+//SetDirection sets character direction
+func (character *Character) SetDirection(direction Direction, points NearPoints) {
+	switch direction {
+	case Up:
+		if points.Up == 1 {
+			return
+		}
+	case Down:
+		if points.Down == 1 {
+			return
+		}
+	case Right:
+		if points.Right == 1 {
+			return
+		}
+	case Left:
+		if points.Left == 1 {
+			return
+		}
+	}
+	character.direction = direction
+}
+
+//SetNoDirection sets no direction
+func (character *Character) SetNoDirection() {
+	character.direction = No
+}
+
+func (character *Character) ProcessTurn() {
+	switch character.direction {
+	case Up:
+		character.Y++
+	case Down:
+		character.Y--
+	case Left:
+		character.X--
+	case Right:
+		character.X++
+	}
+	character.direction = No
 }

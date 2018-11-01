@@ -31,8 +31,8 @@ func (game Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
-		game.resources.Draw(t)
 		game.foodArray.Draw(t, *game.levelManager)
+		game.resources.Draw(t)
 		actualCharacter := game.resources.GetActualCharacter()
 		if actualCharacter != nil {
 			spriteSize := game.interfaceManager.GetSpriteSize()
@@ -81,5 +81,11 @@ func (game *Game) SetDirection(direction basic.Direction) {
 		index := game.levelIndex - 1
 		points := game.levels[index].GetNearPoints(character.GetX(), character.GetY())
 		character.SetDirection(direction, points)
+	}
+}
+
+func (game *Game) ProcessTurn() {
+	for element := range game.resources.characters {
+		game.resources.characters[element].ProcessTurn()
 	}
 }

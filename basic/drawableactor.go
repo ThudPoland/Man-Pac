@@ -8,5 +8,6 @@ import (
 //DrawableActor implements method for draw
 type DrawableActor interface {
 	Actor
+	Processable
 	Draw(t pixel.Target, offset pixel.Vec, manager *sprite.Manager)
 }

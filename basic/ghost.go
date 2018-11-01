@@ -8,7 +8,6 @@ import (
 //Ghost is user-controlled actor
 type Ghost struct {
 	Character
-	direction        Direction
 	interfaceManager *sprite.Manager
 }
 
@@ -31,34 +30,6 @@ func (ghost *Ghost) Draw(t pixel.Target, offset pixel.Vec, manager *sprite.Manag
 		default:
 		}
 	}
-}
-
-//SetDirection sets ghost direction
-func (ghost *Ghost) SetDirection(direction Direction, points NearPoints) {
-	switch direction {
-	case Up:
-		if points.Up == 1 {
-			return
-		}
-	case Down:
-		if points.Down == 1 {
-			return
-		}
-	case Right:
-		if points.Right == 1 {
-			return
-		}
-	case Left:
-		if points.Left == 1 {
-			return
-		}
-	}
-	ghost.direction = direction
-}
-
-//SetNoDirection sets no direction
-func (ghost *Ghost) SetNoDirection() {
-	ghost.direction = No
 }
 
 //SetInterfaceManager sets interface manager
