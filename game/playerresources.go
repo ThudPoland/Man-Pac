@@ -85,3 +85,13 @@ func (resources *PlayerResources) DecrementIndex() {
 		resources.characterIndex--
 	}
 }
+
+//AreResourcesReady is used for checking if resources are ready to process
+func (resources *PlayerResources) AreResourcesReady() bool {
+	for counter := range resources.characters {
+		if !resources.characters[counter].IsReady() {
+			return false
+		}
+	}
+	return true
+}

@@ -111,6 +111,7 @@ func (character *Character) SetNoDirection() {
 	character.direction = No
 }
 
+//ProcessTurn processes turn for character
 func (character *Character) ProcessTurn() {
 	switch character.direction {
 	case Up:
@@ -123,4 +124,9 @@ func (character *Character) ProcessTurn() {
 		character.X++
 	}
 	character.direction = No
+}
+
+//IsReady is function for checking if character is ready to process
+func (character *Character) IsReady() bool {
+	return character.direction != No
 }

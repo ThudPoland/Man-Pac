@@ -84,8 +84,11 @@ func (game *Game) SetDirection(direction basic.Direction) {
 	}
 }
 
+//ProcessTurn is used for entire game to process turn
 func (game *Game) ProcessTurn() {
-	for element := range game.resources.characters {
-		game.resources.characters[element].ProcessTurn()
+	if game.resources.AreResourcesReady() {
+		for element := range game.resources.characters {
+			game.resources.characters[element].ProcessTurn()
+		}
 	}
 }
