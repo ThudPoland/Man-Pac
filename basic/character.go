@@ -85,6 +85,7 @@ func (character *Character) IsValid() bool {
 
 //SetDirection sets character direction
 func (character *Character) SetDirection(direction Direction, points NearPoints) {
+	character.direction = No
 	switch direction {
 	case Up:
 		if points.Up == 1 {
@@ -109,6 +110,11 @@ func (character *Character) SetDirection(direction Direction, points NearPoints)
 //SetNoDirection sets no direction
 func (character *Character) SetNoDirection() {
 	character.direction = No
+}
+
+//GetDirection gets direction
+func (character *Character) GetDirection() Direction {
+	return character.direction
 }
 
 //ProcessTurn processes turn for character

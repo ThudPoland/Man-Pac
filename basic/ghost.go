@@ -11,7 +11,7 @@ type Ghost struct {
 	interfaceManager *sprite.Manager
 }
 
-//Draw draws character
+//Draw draws ghost
 func (ghost *Ghost) Draw(t pixel.Target, offset pixel.Vec, manager *sprite.Manager) {
 	ghost.Character.Draw(t, offset, manager)
 	destination := pixel.IM.Moved(offset).Moved(pixel.V(float64(ghost.X*manager.GetSpriteSize()),

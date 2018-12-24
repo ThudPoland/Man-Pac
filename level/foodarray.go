@@ -56,3 +56,15 @@ func (array *FoodArray) Draw(target pixel.Target, manager sprite.Manager) {
 		manager.DrawSprite(foodIndex, target, destination)
 	}
 }
+
+//Eat is function for eating food
+func (array *FoodArray) Eat(x int, y int) {
+	if array != nil {
+		for element := range array.array {
+			if array.array[element].X == x && array.array[element].Y == y {
+				array.array = append(array.array[:element], array.array[element+1:]...)
+				break
+			}
+		}
+	}
+}

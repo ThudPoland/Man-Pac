@@ -2,6 +2,8 @@
 package game
 
 import (
+	"math/rand"
+
 	"github.com/ThudPoland/Man-Pac/basic"
 	"github.com/ThudPoland/Man-Pac/level"
 	"github.com/ThudPoland/Man-Pac/sprite"
@@ -13,9 +15,10 @@ type Game struct {
 	levels           []level.Level
 	levelIndex       int
 	resources        PlayerResources
-	enemy            basic.Character
+	enemy            *basic.ManPac
 	levelManager     *sprite.Manager
 	interfaceManager *sprite.Manager
+	spriteManager    *sprite.Manager
 	gameSpriteSize   int
 	foodArray        level.FoodArray
 }
@@ -27,12 +30,15 @@ func (game *Game) SetActualLevel(index int) {
 }
 
 //Draw draws entire actual game
-func (game Game) Draw(t pixel.Target) {
+func (game *Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
 		game.foodArray.Draw(t, *game.levelManager)
 		game.resources.Draw(t)
+		if game.enemy != nil {
+			game.enemy.Draw(t, pixel.V(16.0, 16.0), game.spriteManager)
+		}
 		actualCharacter := game.resources.GetActualCharacter()
 		if actualCharacter != nil {
 			spriteSize := game.interfaceManager.GetSpriteSize()
@@ -52,6 +58,7 @@ func (game *Game) SetLevelManager(spriteManager *sprite.Manager) {
 
 //SetResourcesManager sets character sprites manager
 func (game *Game) SetResourcesManager(spriteManager *sprite.Manager) {
+	game.spriteManager = spriteManager
 	game.resources.LoadSpriteManager(spriteManager)
 }
 
@@ -74,6 +81,14 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 	game.resources.CreateGhost("ghost", x, y)
 }
 
+//SetEnemyInLevel sets ManPac
+func (game *Game) SetEnemyInLevel(x int, y int) {
+	game.enemy = &basic.ManPac{}
+	game.enemy.SetPosition(x, y)
+	game.enemy.SetSpriteManager(game.spriteManager)
+	game.enemy.SetIndexForSprite("pacman", game.spriteManager)
+}
+
 //SetDirection sets direction for player
 func (game *Game) SetDirection(direction basic.Direction) {
 	character, ok := game.resources.GetActualCharacter().(*basic.Ghost)
@@ -89,6 +104,25 @@ func (game *Game) ProcessTurn() {
 	if game.resources.AreResourcesReady() {
 		for element := range game.resources.characters {
 			game.resources.characters[element].ProcessTurn()
+		}
+		game.setEnemyDirection()
+		game.enemy.ProcessTurn()
+		game.foodArray.Eat(game.enemy.GetX(), game.enemy.GetY())
+	}
+}
+
+func (game *Game) setEnemyDirection() {
+	index := game.levelIndex - 1
+	possibleDirections := []basic.Direction{basic.Left, basic.Down, basic.Up, basic.Right}
+	points := game.levels[index].GetNearPoints(game.enemy.GetX(), game.enemy.GetY())
+	game.enemy.SetDirection(game.enemy.GetDirection(), points)
+	if game.enemy.GetDirection() == basic.No || points.Sum() < 2 {
+		for {
+			value := rand.Intn(4)
+			game.enemy.SetDirection(possibleDirections[value], points)
+			if game.enemy.GetDirection() != basic.No {
+				break
+			}
 		}
 	}
 }
