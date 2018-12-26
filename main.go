@@ -28,7 +28,6 @@ func run() {
 	//gameProvider.AddGhostToLevel(3, 11)
 	//gameProvider.AddGhostToLevel(4, 11)
 	//gameProvider.AddGhostToLevel(5, 11)
-	gameProvider.SetEnemyInLevel(7, 11)
 	gameProvider.SetActualLevel(1)
 
 	cfg := pixelgl.WindowConfig{

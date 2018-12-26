@@ -15,3 +15,27 @@ const (
 	//Right points the right direction
 	Right = iota
 )
+
+//SetDirection sets direction of entity based on actual position
+func (direction *Direction) SetDirection(points NearPoints, inputDirection Direction) {
+	*direction = No
+	switch inputDirection {
+	case Up:
+		if points.Up == 1 {
+			return
+		}
+	case Down:
+		if points.Down == 1 {
+			return
+		}
+	case Right:
+		if points.Right == 1 {
+			return
+		}
+	case Left:
+		if points.Left == 1 {
+			return
+		}
+	}
+	*direction = inputDirection
+}

@@ -2,8 +2,7 @@
 package game
 
 import (
-	"math/rand"
-
+	"github.com/ThudPoland/Man-Pac/ai"
 	"github.com/ThudPoland/Man-Pac/basic"
 	"github.com/ThudPoland/Man-Pac/level"
 	"github.com/ThudPoland/Man-Pac/sprite"
@@ -27,6 +26,7 @@ type Game struct {
 func (game *Game) SetActualLevel(index int) {
 	game.levelIndex = index
 	game.foodArray.GenerateFoodArray(&game.levels[game.levelIndex-1], game.resources.characters)
+	game.SetEnemyInLevel(7, 11)
 }
 
 //Draw draws entire actual game
@@ -84,6 +84,9 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 //SetEnemyInLevel sets ManPac
 func (game *Game) SetEnemyInLevel(x int, y int) {
 	game.enemy = &basic.ManPac{}
+	algorithm := &ai.Dumb{}
+	algorithm.SetInput(&game.levels[game.levelIndex-1])
+	game.enemy.SetAI(algorithm)
 	game.enemy.SetPosition(x, y)
 	game.enemy.SetSpriteManager(game.spriteManager)
 	game.enemy.SetIndexForSprite("pacman", game.spriteManager)
@@ -105,13 +108,13 @@ func (game *Game) ProcessTurn() {
 		for element := range game.resources.characters {
 			game.resources.characters[element].ProcessTurn()
 		}
-		game.setEnemyDirection()
+		game.enemy.DoCalculations()
 		game.enemy.ProcessTurn()
 		game.foodArray.Eat(game.enemy.GetX(), game.enemy.GetY())
 	}
 }
 
-func (game *Game) setEnemyDirection() {
+/*func (game *Game) setEnemyDirection() {
 	index := game.levelIndex - 1
 	possibleDirections := []basic.Direction{basic.Left, basic.Down, basic.Up, basic.Right}
 	points := game.levels[index].GetNearPoints(game.enemy.GetX(), game.enemy.GetY())
@@ -125,4 +128,4 @@ func (game *Game) setEnemyDirection() {
 			}
 		}
 	}
-}
+}*/

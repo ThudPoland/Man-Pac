@@ -85,26 +85,7 @@ func (character *Character) IsValid() bool {
 
 //SetDirection sets character direction
 func (character *Character) SetDirection(direction Direction, points NearPoints) {
-	character.direction = No
-	switch direction {
-	case Up:
-		if points.Up == 1 {
-			return
-		}
-	case Down:
-		if points.Down == 1 {
-			return
-		}
-	case Right:
-		if points.Right == 1 {
-			return
-		}
-	case Left:
-		if points.Left == 1 {
-			return
-		}
-	}
-	character.direction = direction
+	character.direction.SetDirection(points, direction)
 }
 
 //SetNoDirection sets no direction
