@@ -18,15 +18,16 @@ type Game struct {
 	levelManager     *sprite.Manager
 	interfaceManager *sprite.Manager
 	spriteManager    *sprite.Manager
+	actualLevel      *level.Level
 	gameSpriteSize   int
-	foodArray        level.FoodArray
 }
 
 //SetActualLevel sets index of a level
 func (game *Game) SetActualLevel(index int) {
 	game.levelIndex = index
-	game.foodArray.GenerateFoodArray(&game.levels[game.levelIndex-1], game.resources.characters)
+	game.actualLevel = &game.levels[game.levelIndex-1]
 	game.SetEnemyInLevel(7, 11)
+	game.actualLevel.GenerateFoodArray(append(game.resources.characters, game.enemy))
 }
 
 //Draw draws entire actual game
@@ -34,7 +35,6 @@ func (game *Game) Draw(t pixel.Target) {
 	index := game.levelIndex - 1
 	if index >= 0 && index < len(game.levels) {
 		game.levels[index].Draw(t, *game.levelManager)
-		game.foodArray.Draw(t, *game.levelManager)
 		game.resources.Draw(t)
 		if game.enemy != nil {
 			game.enemy.Draw(t, pixel.V(16.0, 16.0), game.spriteManager)
@@ -85,7 +85,7 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 func (game *Game) SetEnemyInLevel(x int, y int) {
 	game.enemy = &basic.ManPac{}
 	algorithm := &ai.Dumb{}
-	algorithm.SetInput(&game.levels[game.levelIndex-1])
+	algorithm.SetInput(game.actualLevel)
 	game.enemy.SetAI(algorithm)
 	game.enemy.SetPosition(x, y)
 	game.enemy.SetSpriteManager(game.spriteManager)
@@ -110,22 +110,6 @@ func (game *Game) ProcessTurn() {
 		}
 		game.enemy.DoCalculations()
 		game.enemy.ProcessTurn()
-		game.foodArray.Eat(game.enemy.GetX(), game.enemy.GetY())
+		game.actualLevel.Eat(game.enemy.GetX(), game.enemy.GetY())
 	}
 }
-
-/*func (game *Game) setEnemyDirection() {
-	index := game.levelIndex - 1
-	possibleDirections := []basic.Direction{basic.Left, basic.Down, basic.Up, basic.Right}
-	points := game.levels[index].GetNearPoints(game.enemy.GetX(), game.enemy.GetY())
-	game.enemy.SetDirection(game.enemy.GetDirection(), points)
-	if game.enemy.GetDirection() == basic.No || points.Sum() < 2 {
-		for {
-			value := rand.Intn(4)
-			game.enemy.SetDirection(possibleDirections[value], points)
-			if game.enemy.GetDirection() != basic.No {
-				break
-			}
-		}
-	}
-}*/

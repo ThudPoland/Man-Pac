@@ -13,6 +13,7 @@ type FoodArray struct {
 
 //GenerateFoodArray generates array of food.
 func (array *FoodArray) GenerateFoodArray(level *Level, characters []basic.DrawableActor) {
+	array.array = nil
 	for element := range level.layout {
 		for nestedElement := range level.layout[element] {
 			if level.layout[element][nestedElement] == 0 {

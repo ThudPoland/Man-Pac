@@ -13,10 +13,11 @@ import (
 
 //Level struct is struct for creating levels
 type Level struct {
-	name   string
-	layout [][]int
-	render pixel.Batch
-	offset pixel.Vec
+	name      string
+	layout    [][]int
+	render    pixel.Batch
+	offset    pixel.Vec
+	foodArray FoodArray
 }
 
 func (level *Level) parse(data Data) {
@@ -42,7 +43,7 @@ func (level *Level) parseLine(line string) {
 	level.layout = append(level.layout, levelData)
 }
 
-//Main function for loading level
+//Load function for loading level
 func (level *Level) Load(path string) {
 	var data Data
 	data.Load(path)
@@ -63,6 +64,7 @@ func (level Level) Draw(target pixel.Target, manager sprite.Manager) {
 			manager.DrawSprite(level.layout[element][nestedElement], target, destination)
 		}
 	}
+	level.foodArray.Draw(target, manager)
 }
 
 //GetNearPoints gets near points
@@ -72,4 +74,14 @@ func (level *Level) GetNearPoints(x, y int) basic.NearPoints {
 		Down:  level.layout[y-1][x],
 		Left:  level.layout[y][x-1],
 		Right: level.layout[y][x+1]}
+}
+
+//GenerateFoodArray generates food array for the level
+func (level *Level) GenerateFoodArray(characters []basic.DrawableActor) {
+	level.foodArray.GenerateFoodArray(level, characters)
+}
+
+//Eat is function from eating things from a level
+func (level *Level) Eat(x int, y int) {
+	level.foodArray.Eat(x, y)
 }
