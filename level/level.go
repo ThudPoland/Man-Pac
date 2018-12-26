@@ -85,3 +85,8 @@ func (level *Level) GenerateFoodArray(characters []basic.DrawableActor) {
 func (level *Level) Eat(x int, y int) {
 	level.foodArray.Eat(x, y)
 }
+
+//GetDirectionForFood gets direction for food next to point
+func (level *Level) GetDirectionForFood(x, y int) basic.Direction {
+	return level.foodArray.GetDirectionForFood(x, y)
+}

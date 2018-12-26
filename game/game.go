@@ -84,7 +84,7 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 //SetEnemyInLevel sets ManPac
 func (game *Game) SetEnemyInLevel(x int, y int) {
 	game.enemy = &basic.ManPac{}
-	algorithm := &ai.Dumb{}
+	algorithm := &ai.DumbEater{}
 	algorithm.SetInput(game.actualLevel)
 	game.enemy.SetAI(algorithm)
 	game.enemy.SetPosition(x, y)

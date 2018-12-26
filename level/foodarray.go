@@ -59,7 +59,7 @@ func (array *FoodArray) Draw(target pixel.Target, manager sprite.Manager) {
 }
 
 //Eat is function for eating food
-func (array *FoodArray) Eat(x int, y int) {
+func (array *FoodArray) Eat(x, y int) {
 	if array != nil {
 		for element := range array.array {
 			if array.array[element].X == x && array.array[element].Y == y {
@@ -68,4 +68,19 @@ func (array *FoodArray) Eat(x int, y int) {
 			}
 		}
 	}
+}
+
+//GetDirectionForFood gets direction for food next to point
+func (array *FoodArray) GetDirectionForFood(x, y int) basic.Direction {
+	possibleDirections := []basic.Direction{basic.Left, basic.Down, basic.Up, basic.Right}
+	directionChanges := []struct{ x, y int }{{x - 1, y}, {x, y - 1}, {x, y + 1}, {x + 1, y}}
+	for element := range possibleDirections {
+		for nestedElement := range array.array {
+			if array.array[nestedElement].X == directionChanges[element].x && array.array[nestedElement].Y == directionChanges[element].y {
+				return possibleDirections[element]
+			}
+		}
+	}
+
+	return basic.No
 }
