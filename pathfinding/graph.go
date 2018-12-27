@@ -1,36 +1,32 @@
 package pathfinding
 
-import "math"
-
+//Graph is struct for pathfinding graph
 type Graph struct {
-	nodes map[struct {
-		int
-		int
-	}]*Node
+	nodes  [][]*Node
 	width  int
 	height int
 }
 
+//InitGraph creates new graph
 func InitGraph() *Graph {
 	data := new(Graph)
 	return data
 }
 
+//FillGraph is used to fill graph needed by pathfinding algorithms
 func (graph *Graph) FillGraph(layout [][]int) {
-	graph.width = len(layout)
-	graph.height = len(layout[graph.width])
+	graph.height = len(layout)
+	graph.width = len(layout[0])
 
-	for x := range graph.width {
-		for y := range graph.height {
-			node := Node{distance: math.Inf(0),
-				parent: nil, state: Unvisited}
+	for y := range layout {
+		for x := range layout[0] {
+			node := &Node{distance: 0,
+				parent: nil, state: Unvisited,
+				x: x, y: y}
 			if layout[x][y] > 0 {
 				node.state = Obstacle
 			}
-			graph.nodes[struct {
-				int
-				int
-			}{x, y}] = node
+			graph.nodes[x][y] = node
 		}
 	}
 }

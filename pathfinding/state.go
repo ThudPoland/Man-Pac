@@ -1,7 +1,5 @@
 package pathfinding
 
-package basic
-
 //State defines state of node
 type State int
 
