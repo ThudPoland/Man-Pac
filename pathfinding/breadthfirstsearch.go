@@ -15,13 +15,13 @@ type BreadthFirstSearch struct {
 //GetSearchResult creates result for Breadth First Search
 func (searchData *BreadthFirstSearch) GetSearchResult(startX, startY, endX, endY int, source *Graph) {
 	searchData.reachable = false
-	node := source.nodes[startX][startY]
+	node := source.nodes[startY][startX]
 	searchData.firstNode = node
 	nodesSlice := []*Node{node}
 	for len(nodesSlice) > 0 {
 		actualNode := nodesSlice[0]
 		nodesSlice = nodesSlice[1:]
-		neighbours := searchData.getNeighbours(startX, startY, source)
+		neighbours := searchData.getNeighbours(actualNode.x, actualNode.y, source)
 
 		for element := range neighbours {
 			actualNeighbour := neighbours[element]
@@ -56,7 +56,7 @@ func (searchData *BreadthFirstSearch) getNeighbours(startX, startY int, source *
 			}
 		}
 
-		node := source.nodes[coordinates[element].x][coordinates[element].y]
+		node := source.nodes[coordinates[element].y][coordinates[element].x]
 		if node.state == Unvisited {
 			neighbours = append(neighbours, node)
 		}
@@ -66,26 +66,39 @@ func (searchData *BreadthFirstSearch) getNeighbours(startX, startY int, source *
 }
 
 func (searchData *BreadthFirstSearch) getFirstNode(source *Graph, sourceNode *Node) {
+	actualNode := searchData.lastNode
 	if searchData.lastNode != nil && searchData.firstNode != nil && searchData.reachable == true {
 		for {
-			actualNode := sourceNode
-			if actualNode == searchData.lastNode {
+			if actualNode == searchData.firstNode {
 				searchData.direction = basic.No
+				return
 			}
 
 			if actualNode.parent == searchData.firstNode {
-				deltaX := actualNode.parent.x - searchData.firstNode.x
-				deltaY := actualNode.parent.y - searchData.firstNode.y
-				if deltaY < 0 {
+				deltaX := actualNode.x - searchData.firstNode.x
+				deltaY := actualNode.y - searchData.firstNode.y
+				if deltaY > 0 {
 					searchData.direction = basic.Up
-				} else if deltaY > 0 {
+				} else if deltaY < 0 {
 					searchData.direction = basic.Down
-				} else if deltaX < 0 {
-					searchData.direction = basic.Right
 				} else if deltaX > 0 {
+					searchData.direction = basic.Right
+				} else if deltaX < 0 {
 					searchData.direction = basic.Left
+				} else {
+					searchData.direction = basic.No
 				}
+				return
 			}
+			actualNode = actualNode.parent
 		}
 	}
+}
+
+//GetDirection gets direction for next item
+func (searchData *BreadthFirstSearch) GetDirection() basic.Direction {
+	if searchData.reachable == false {
+		return basic.No
+	}
+	return searchData.direction
 }

@@ -57,11 +57,11 @@ func (level *Level) SetOffset(offset pixel.Vec) {
 
 //Draw method for level
 func (level Level) Draw(target pixel.Target, manager sprite.Manager) {
-	for element := range level.layout {
-		for nestedElement := range level.layout[element] {
-			destination := pixel.IM.Moved(pixel.V(float64(nestedElement*manager.GetSpriteSize())+16,
-				float64(element*manager.GetSpriteSize())+16)).Moved(level.offset)
-			manager.DrawSprite(level.layout[element][nestedElement], target, destination)
+	for x := range level.layout {
+		for y := range level.layout[x] {
+			destination := pixel.IM.Moved(pixel.V(float64(y*manager.GetSpriteSize())+16,
+				float64(x*manager.GetSpriteSize())+16)).Moved(level.offset)
+			manager.DrawSprite(level.layout[x][y], target, destination)
 		}
 	}
 	level.foodArray.Draw(target, manager)

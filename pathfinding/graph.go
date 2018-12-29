@@ -15,18 +15,20 @@ func InitGraph() *Graph {
 
 //FillGraph is used to fill graph needed by pathfinding algorithms
 func (graph *Graph) FillGraph(layout [][]int) {
-	graph.height = len(layout)
 	graph.width = len(layout[0])
+	graph.height = len(layout)
 
+	graph.nodes = make([][]*Node, graph.height)
 	for y := range layout {
+		graph.nodes[y] = make([]*Node, graph.width)
 		for x := range layout[0] {
 			node := &Node{distance: 0,
 				parent: nil, state: Unvisited,
 				x: x, y: y}
-			if layout[x][y] > 0 {
+			if layout[y][x] > 0 {
 				node.state = Obstacle
 			}
-			graph.nodes[x][y] = node
+			graph.nodes[y][x] = node
 		}
 	}
 }

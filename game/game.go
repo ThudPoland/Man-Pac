@@ -84,7 +84,7 @@ func (game *Game) AddGhostToLevel(x int, y int) {
 //SetEnemyInLevel sets ManPac
 func (game *Game) SetEnemyInLevel(x int, y int) {
 	game.enemy = &basic.ManPac{}
-	algorithm := &ai.DumbEater{}
+	algorithm := &ai.FoodFinder{}
 	algorithm.SetInput(game.actualLevel)
 	game.enemy.SetAI(algorithm)
 	game.enemy.SetPosition(x, y)
@@ -104,7 +104,7 @@ func (game *Game) SetDirection(direction basic.Direction) {
 
 //ProcessTurn is used for entire game to process turn
 func (game *Game) ProcessTurn() {
-	if game.resources.AreResourcesReady() {
+	if true {
 		for element := range game.resources.characters {
 			game.resources.characters[element].ProcessTurn()
 		}
