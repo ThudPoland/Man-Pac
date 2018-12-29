@@ -7,6 +7,7 @@ import (
 //BreadthFirstSearch is a struct for making pathfinding
 type BreadthFirstSearch struct {
 	lastNode  *Node
+	firstNode *Node
 	direction basic.Direction
 	reachable bool
 }
@@ -15,6 +16,7 @@ type BreadthFirstSearch struct {
 func (searchData *BreadthFirstSearch) GetSearchResult(startX, startY, endX, endY int, source *Graph) {
 	searchData.reachable = false
 	node := source.nodes[startX][startY]
+	searchData.firstNode = node
 	nodesSlice := []*Node{node}
 	for len(nodesSlice) > 0 {
 		actualNode := nodesSlice[0]
@@ -31,6 +33,7 @@ func (searchData *BreadthFirstSearch) GetSearchResult(startX, startY, endX, endY
 				if actualNeighbour.x == endX && actualNeighbour.y == endY {
 					searchData.reachable = true
 					searchData.lastNode = actualNeighbour
+					searchData.getFirstNode(source, actualNeighbour)
 					return
 				}
 
@@ -63,11 +66,25 @@ func (searchData *BreadthFirstSearch) getNeighbours(startX, startY int, source *
 }
 
 func (searchData *BreadthFirstSearch) getFirstNode(source *Graph, sourceNode *Node) {
-	if searchData.lastNode != nil && searchData.reachable == true {
+	if searchData.lastNode != nil && searchData.firstNode != nil && searchData.reachable == true {
 		for {
 			actualNode := sourceNode
 			if actualNode == searchData.lastNode {
 				searchData.direction = basic.No
+			}
+
+			if actualNode.parent == searchData.firstNode {
+				deltaX := actualNode.parent.x - searchData.firstNode.x
+				deltaY := actualNode.parent.y - searchData.firstNode.y
+				if deltaY < 0 {
+					searchData.direction = basic.Up
+				} else if deltaY > 0 {
+					searchData.direction = basic.Down
+				} else if deltaX < 0 {
+					searchData.direction = basic.Right
+				} else if deltaX > 0 {
+					searchData.direction = basic.Left
+				}
 			}
 		}
 	}

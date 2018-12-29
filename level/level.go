@@ -90,3 +90,13 @@ func (level *Level) Eat(x int, y int) {
 func (level *Level) GetDirectionForFood(x, y int) basic.Direction {
 	return level.foodArray.GetDirectionForFood(x, y)
 }
+
+//GetLayout gets layout of a level
+func (level *Level) GetLayout() *[][]int {
+	return &level.layout
+}
+
+//GetAnyFoodData gets any food
+func (level *Level) GetAnyFoodData() *basic.Food {
+	return level.foodArray.GetAnyFoodData()
+}

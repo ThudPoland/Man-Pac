@@ -84,3 +84,11 @@ func (array *FoodArray) GetDirectionForFood(x, y int) basic.Direction {
 
 	return basic.No
 }
+
+//GetAnyFoodData gets data for any food on the level
+func (array *FoodArray) GetAnyFoodData() *basic.Food {
+	if len(array.array) == 0 {
+		return nil
+	}
+	return &array.array[0]
+}
